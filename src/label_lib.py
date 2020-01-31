@@ -15,16 +15,8 @@ Times-Italic          Courier-Oblique            Helvetica-Oblique
 Times-BoldItalic      Courier-BoldOblique        Helvetica-BoldOblique    '''
 
 class LabelPage:
-    def __init__(self, size, cnt, space=(0,0), LeftBottom=[None, None], pagesize=A4, rotate=False, frame=frame_label, filename="Label_Lib.pdf"):
-        if rotate:
-            pagesize=landscape(pagesize)
-            size = list(size); size.reverse(); size=tuple(size)
-            cnt = list(cnt); cnt.reverse()
-            space = list(space); space.reverse()
-            LeftBottom = list(LeftBottom); LeftBottom.reverse()
-        self.sizeX, self.sizeY = size[X], size[Y]
-
-
+    def __init__(self, size, cnt, space=(0,0), LeftBottom=[None, None], pagesize=A4, rotate=False, frame=frame_none, filename="Label_Lib.pdf"):
+        if rotate: pagesize=landscape(pagesize)
         if LeftBottom is None or LeftBottom is (None, None): LeftBottom = [None, None]
 
         self.c = canvas.Canvas(filename=filename, pagesize=pagesize)
@@ -85,22 +77,6 @@ class LabelPage:
         self.c.setFillColorRGB(1, 0, 1)
         self.c.line(0, 0, 0, 1.7 * inch)
         self.c.line(0, 0, 1 * inch, 0)
-
-    def iter_label(self, data):
-        try:
-            for idx, d in enumerate(data):
-                #print(idx)
-                if idx == 0:
-                    self.c.translate(self.positions[0][X]*mm, self.positions[0][Y]*mm)
-                if idx >0:
-                    dx = (self.positions[idx - 1][X] * mm* - 1) + self.positions[idx][X] * mm
-                    dy = (self.positions[idx - 1][Y] * mm * -1) + self.positions[idx][Y] * mm
-                    self.c.translate(dx,dy)
-                yield d
-        except:
-            print("IndexError: list index out of range. Dhe data is longer than the number of labels.")
-
-
 
     def save(self):
         self.c.save()
