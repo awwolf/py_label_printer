@@ -1,7 +1,12 @@
 #awwolf 11.10.2019 V1.0
-from reportlab.lib.pagesizes import A4,landscape
+from reportlab.lib.pagesizes import A4,landscape    # pip install reportlab
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm,cm,inch
+#for Datamatrix generation
+from pystrich.datamatrix import DataMatrixEncoder # pip install pystrich==0.8
+from reportlab.lib.utils import ImageReader
+import io
+
 import subprocess, os
 
 X, Y, X2, Y2 = 0, 1, 2, 3
@@ -13,8 +18,9 @@ Times-Italic          Courier-Oblique            Helvetica-Oblique
 Times-BoldItalic      Courier-BoldOblique        Helvetica-BoldOblique    '''
 
 class LabelPage():
-    def __init__(self, size, cnt, space=(0,0), LeftBottom=(None, None), pagesize=A4, rotate=False, filename="Label_Lib.pdf"):
+    def __init__(self, size, cnt, space=(0,0), LeftBottom=(None, None), pagesize=None, rotate=False, filename="Label_Lib.pdf"):
         #default parameters
+        pagesize = A4
         self.frame_spacing, self.frame, self.frame_round = 0, 0, None
         self.marks_outer_spacing, self.marks_outer_length, self.marks_outer = -10, 30, 0
         self.marks_inner_spacing, self.marks_inner_length, self.marks_inner = -20, 5, 0
@@ -45,12 +51,11 @@ class LabelPage():
         self.LeftBottom = LeftBottom
         self.c.scale(mm, mm)
         #calculation positions
-#HERE IST THE BUG
         self.positions = []
-        for idx_x in range(self.cnt[X]):
-            x = self.LeftBottom[X] + (idx_x * (self.size[X] + self.space[X]))
-            for idx_y in range(self.cnt[Y]):
-                y = self.LeftBottom[Y] + (idx_y * (self.size[Y] + self.space[Y]))
+        for idx_y in range(self.cnt[Y]).__reversed__():
+            y = self.LeftBottom[Y] + (idx_y * (self.size[Y] + self.space[Y]))
+            for idx_x in range(self.cnt[X]):
+                x = self.LeftBottom[X] + (idx_x * (self.size[X] + self.space[X]))
                 self.positions.append([x,y])
 
     def setFrame(self, thickness = 0.5, spacing=0, round=False):
@@ -65,8 +70,8 @@ class LabelPage():
         if self.frame or True:
             self.c.setStrokeColorRGB(0,0,0)
             ptr = 0
-            for ix in range(self.cnt[X]):
-                for iy in range(self.cnt[Y]):
+            for iy in range(self.cnt[Y]):
+                for ix in range(self.cnt[X]):
                     idx = self.positions[ptr][X], self.positions[ptr][Y]
                     ptr += 1
                     if self.frame:
@@ -86,13 +91,14 @@ class LabelPage():
                     if self.marks_outer:
                         self.c.setLineWidth(self.marks_outer)
                         if ix == 0 and iy == 0:
-                            self.__draw_corner("LB", idx[X], idx[Y], self.marks_outer_length, space=self.marks_outer_spacing, thickness=self.marks_outer)
-                        if ix == self.cnt[X]-1 and iy == 0:
-                            self.__draw_corner("RB", idx[X] + self.sizeX, idx[Y], self.marks_outer_length, space=self.marks_outer_spacing, thickness=self.marks_outer)
-                        if ix == 0 and iy == self.cnt[Y]-1: #left top
                             self.__draw_corner("LT", idx[X], idx[Y] + self.sizeY, self.marks_outer_length, space=self.marks_outer_spacing, thickness=self.marks_outer)
-                        if ix == self.cnt[X]-1 and iy == self.cnt[Y]-1:
+                        if ix == self.cnt[X]-1 and iy == 0:
                             self.__draw_corner("RT", idx[X] + self.sizeX, idx[Y] + self.sizeY, self.marks_outer_length, space=self.marks_outer_spacing, thickness=self.marks_outer)
+                        if ix == 0 and iy == self.cnt[Y]-1: #left top
+                            self.__draw_corner("LB", idx[X], idx[Y], self.marks_outer_length, space=self.marks_outer_spacing, thickness=self.marks_outer)
+                        if ix == self.cnt[X]-1 and iy == self.cnt[Y]-1:
+                            self.__draw_corner("RB", idx[X] + self.sizeX, idx[Y], self.marks_outer_length, space=self.marks_outer_spacing, thickness=self.marks_outer)
+
             self.c.setLineWidth(0.1)
 
 
@@ -150,6 +156,17 @@ class LabelPage():
                         self.__page_begin()
         except:
             print("IndexError: list index out of range. The data is longer than the number of labels.")
+
+    def draw_datamatrix(self, text, x, y, size, anchor="C"):
+        e_datamatrix = DataMatrixEncoder(text)
+        img = ImageReader(io.BytesIO(e_datamatrix.get_imagedata()))
+        _x, _y = x - size / 2,  y - size / 2
+        if "N" in str(anchor).upper(): _y = y - size
+        if "S" in str(anchor).upper(): _y = y
+        if "E" in str(anchor).upper(): _x = x - size
+        if "W" in str(anchor).upper(): _x = x
+        self.c.drawImage(img, _x, _y, *[size] * 2)
+
 
     def save(self):
         self.c.save()

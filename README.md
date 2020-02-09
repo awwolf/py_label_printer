@@ -58,32 +58,49 @@ Or print it with your default viewer and default printer automaticly:
 L.print()
 ```
 
-### Frame and Cuttung Marks
-Set a frame
+### Frame
+With this function, you can easily check the accuracy of fit when you first print on a sheet of paper. Place this with one side of the sticker on top of the other and hold it against the light.
 ```python
 L.setFrame(thickness = 0.5, spacing=0.0, round=False)
 ```
 | Paramter | Description | Datatype | Default |
 | :---:     | :--- | :---: | :---: |
-| ```thickness=0.5``` | defines the thickness | float | 0.5 |
-| ```spacing=0.0``` | defines the spacing relativ to the label | float | 0.0 |
-| ```round=False``` | defines the rounding of the corner | float | False |
+| ```thickness=0.5``` | defines the thickness | float | ```0.5``` |
+| ```spacing=0.0``` | defines the spacing relativ to the label | float | ```0.0``` |
+| ```round=False``` | defines the rounding of the corner | float | ```False``` |
 
-Set outer cutting marks (for automated cutting machinges)
+### Cutting Marks
+Cutting marks are for automated cutting machines. You can choice between inner and outer cutting marks.
+##### Outer Cutting Marks
+Outer cutting marks are on the four corners of all labels on a page.
 ```python
 L.setMarksOuter(thickness = 0.5, spacing=5.0)
 ```
 | Paramter | Description | Datatype | Default |
 | :---:     | :--- | :---: | :---: |
-| ```thickness=0.5``` | defines the thickness | float | 0.5 |
-| ```spacing=0.0``` | defines the spacing relativ to the label | float | 5.0 |
+| ```thickness=0.5``` | defines the thickness | float | ```0.5``` |
+| ```spacing=0.0``` | defines the spacing relativ to the label | float | ```5.0``` |
 
-Set inner cutting marks (for automated cutting machinges)
+##### Inner Cuttin Marks
+Inner cutting marks are at every corner of each label.
+If the labels are close together, this method is not recommended.
 ```python
 L.setMarksInner(thickness = 0.5, spacing=5.0)
 ```
 | Paramter | Description | Datatype | Default |
 | :---:     | :--- | :---: | :---: |
-| ```thickness=0.5``` | defines the thickness | float | 0.5 |
-| ```spacing=0.0``` | defines the spacing relativ to the label | float | 5.0 |
+| ```thickness=0.5``` | defines the thickness | float | ```0.5``` |
+| ```spacing=0.0``` | defines the spacing relativ to the label | float | ```5.0``` |
 
+### Datamatix
+Because the Datamatix code in Reportlab does not work properly, an alternative (via pyStrich) is available here.
+```
+L.draw_datamatrix(data, x, x, size, anchor='C')
+```
+| Paramter | Description | Datatype | Default |
+| :---:     | :--- | :---: | :---: |
+| ```data``` | defines the data of the barcode | string | - |
+| ```x``` | x position of the Barcode | float | - |
+| ```y``` | y position of the Barcode | float | - |
+| ```size``` | size of the Barcode | float | - |
+| ```anchor``` | anchor for placing in canvas ('C'=center, 'N'=north, 'SW'=south-west...)| string | ```'C'``` |

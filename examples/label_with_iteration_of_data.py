@@ -9,7 +9,8 @@ from reportlab.graphics.shapes import Drawing
 from reportlab.graphics import renderPDF
 #import else
 from datetime import datetime
-mm = 1
+
+#these label dimensions do not really exist
 L = LabelPage(size=(70,50), cnt=(2,4), space=(20 ,20), filename=__file__[:-2]+"pdf", rotate=True)
 L.setFrame(0.2, round=8)
 L.setMarksOuter(1, spacing=10)
@@ -35,7 +36,7 @@ for i in L.iter_label(data):
     if L.new_page:
         c.setFillColorRGB(1,0,0)
         c.setFont("Helvetica-Bold", size=6)
-        c.drawString(-10,L.LeftBottom[1]*-1+6, "This text is on every page. Attention, this position is relativ to the first label." + " "*27 + "Page " + str(int(i["id"]/8+1)))
+        c.drawString(-10,L.sizeY*-1-40, "This text is on every page. Attention, this position is relativ to the first label." + " "*27 + "Page " + str(int(i["id"]/8+1)))
     c.setFillColorRGB(*i["rgb"])
     c.setFont("Helvetica-Bold", size=8)
     c.drawCentredString(L.sizeX / 2 , 27, i["color"])
@@ -54,11 +55,11 @@ for i in L.iter_label(data):
     height = bounds[3] - bounds[1]
     dr = Drawing(0, 0, transform=[25. / width, 0, 0, 25. / height, 0, 0])
     dr.add(qr_code)
-    renderPDF.draw(dr, c, L.sizeX/2-12, 35*mm)
+    renderPDF.draw(dr, c, L.sizeX/2-12, 35)
 # draw hole
     c.circle(7, L.sizeY-7, 2.5)
 # draw image
-    c.drawImage("star.jpg",5.0*mm,27.0*mm,width=6*mm,height=6*mm, preserveAspectRatio=True, anchor='c')
+    c.drawImage("star.jpg",5.0,27.0,width=6,height=6, preserveAspectRatio=True, anchor='c')
 
 L.save()
 L.show()
