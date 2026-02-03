@@ -20,8 +20,11 @@ Avery_Zweckform_3667    = {"size":(48.5, 16.9),     "cnt":(4, 16),  "space":(0.0
 Avery_Zweckform_4732    = {"size":(35.6, 16.9),     "cnt":(5, 16),  "space":(2.5, 0.0)}
 Avery_Zweckform_L6114   = {"size":(63.5, 29.6),     "cnt":(3,9),    "space":(2.5, 0.0)}
 Avery_Zweckform_L7871   = {"size":(25.4, 10.0),     "cnt":(7,27),   "space":(2.5, 0.0)}
-Avery_Zweckform_L7993   = {"size":(99.1, 67.7),     "cnt":(2,4),    "space":(2.5, 0.0)}
+Avery_Zweckform_L7993   = {"size":(99.1, 67.7),     "cnt":(2,4),    "space":(2.5, 0.0)} # default type
+Avery_Zweckform_L7941   = Avery_Zweckform_L7993 # Ultra Resistant Outdoor Lables
 Avery_Zweckform_LR3666  = Avery_Zweckform_3666
 
 Herma_4610              = {"size":(52.5, 29.7),     "cnt":(4, 10),  "space":(0, 0)}
 Herma_4226              = {"size":(48.3, 16.9),     "cnt":(4, 16),  "space":(0, 0)}
+
+Sigel_LA164             = {"size":(105, 148),       "cnt":(2,2),    "space":(0, 0)}

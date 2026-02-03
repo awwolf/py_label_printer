@@ -20,7 +20,7 @@ Times-BoldItalic      Courier-BoldOblique        Helvetica-BoldOblique    '''
 class LabelPage():
     def __init__(self, size, cnt, space=(0,0), LeftBottom=(None, None), pagesize=None, rotate=False, filename="Label_Lib.pdf"):
         #default parameters
-        pagesize = A4
+        pagesize = pagesize or A4
         self.frame_spacing, self.frame, self.frame_round = 0, 0, None
         self.marks_outer_spacing, self.marks_outer_length, self.marks_outer = -10, 30, 0
         self.marks_inner_spacing, self.marks_inner_length, self.marks_inner = -20, 5, 0
