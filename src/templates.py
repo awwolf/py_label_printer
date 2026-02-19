@@ -18,6 +18,7 @@ Avery_Zweckform_3665    = {"size":(105.0, 33.8),    "cnt":(2,8),    "space":(0.0
 Avery_Zweckform_3666    = {"size":(38.0, 21.2),     "cnt":(5,13),   "space":(0.0, 0.0)}
 Avery_Zweckform_3667    = {"size":(48.5, 16.9),     "cnt":(4, 16),  "space":(0.0, 0.0)}
 Avery_Zweckform_4732    = {"size":(35.6, 16.9),     "cnt":(5, 16),  "space":(2.5, 0.0)}
+Avery_Zweckform_B7651   = {"size":(38.0, 21.0),     "cnt":(5,13),   "space":(2.5, 0.0)}
 Avery_Zweckform_L6114   = {"size":(63.5, 29.6),     "cnt":(3,9),    "space":(2.5, 0.0)}
 Avery_Zweckform_L7871   = {"size":(25.4, 10.0),     "cnt":(7,27),   "space":(2.5, 0.0)}
 Avery_Zweckform_L7993   = {"size":(99.1, 67.7),     "cnt":(2,4),    "space":(2.5, 0.0)} # default type
